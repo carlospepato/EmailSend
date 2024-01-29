@@ -9,13 +9,13 @@ def definir_estilo_tabela(tabela):
         'selector': 'thead th',  # Seleciona todas as células do cabeçalho
         'props': [('background-color', 'black'), ('color', 'white')]  # Define o fundo preto e texto branco
     }
-
     tabela_html = (
         tabela.style
         .set_table_styles([estilo_cabecalho])
         .to_html(index=False, classes="table table-striped"))
 
     return tabela_html
+
 
 def ler_planilha():
     remetente = str(input('email:'))
@@ -28,9 +28,6 @@ def ler_planilha():
 
         # Formatação da coluna 'Amount SAP'
         df_grupo = df_grupo.assign(**{'Amount SAP': df_grupo['Amount SAP'].apply(lambda x: '{:,.2f}'.format(x))})
-
-        print('Remetente:', type(remetente))
-        print('E-mail:', destinatario)
 
         data = grupo['Data'].iloc[0]  # Assume que 'Data' é a mesma para todas as linhas do grupo
         nome_empresa = grupo['Company'].iloc[0]  # Assume que 'Company' é a mesma para todas as linhas do grupo
@@ -60,24 +57,6 @@ def ler_planilha():
         except Exception as e:
             print(f"Falha ao enviar e-mail para {destinatario}. Erro: {str(e)}")
 
-    #return remetente, destinatario, corpo1
-
-
-
-def obter_dados_email():
-    workbook = load_workbook(r'./planilha/planilha_teste.xlsx')
-    sheet = workbook.active
-
-    remetente = sheet.cell(row=14, column=6).value  # Assume que o remetente está na célula (0, 0)
-
-    destinatarios = []
-    for row in range(2, sheet.max_row + 1):  # Começa da segunda linha para evitar o remetente
-        destinatario = sheet.cell(row=row, column=2).value
-        destinatarios.append(destinatario)
-        print(destinatario)
-
-    return remetente, destinatarios
-
 
 # Função para enviar e-mails
 def enviar_emails(remetente, destinatarios, corpo):
@@ -98,17 +77,4 @@ def enviar_emails(remetente, destinatarios, corpo):
 
 
 if __name__ == "__main__":
-    """planilha_excel = "C:\\Users\\carlos.pepato\\Desktop\\teste_envio_email.xlsx"  # Substitua pelo caminho da sua planilha
-    remetente, destinatarios = obter_dados_email(planilha_excel)
-
-    if remetente and destinatarios:
-        if(enviar_emails(remetente, destinatarios, corpo='<h1>Teste</h1>')):
-            print("E-mails enviados com sucesso!")
-        else:
-            print("Erro ao enviar o e-mail")
-    else:
-        if not remetente:
-            print("Remetente não encontrado na planilha.")
-        if not destinatarios:
-            print("Destinatários não encontrados na planilha.")"""
     ler_planilha()
