@@ -2,7 +2,32 @@ import pandas as pd
 import pyarrow
 import win32com.client
 from openpyxl import load_workbook
+from tkinter import *
+from tkinter import messagebox
+from tkinter import filedialog
 
+
+def abrir_arquivo(label):
+    # Abre a caixa de diálogo para seleção de arquivo
+    arquivo = filedialog.askopenfilename(title="Selecione um arquivo", filetypes=[("Arquivos de Texto", "*.txt"), ("Todos os arquivos", "*.*")])
+
+    # Atualiza o rótulo com o caminho do arquivo selecionado
+    label.config(text=f"Arquivo selecionado: {arquivo}")
+
+def executar_programa():
+    janela = Tk()
+    janela.title("Seleção de Arquivo")
+
+    # Criar um rótulo na janela
+    label = Label(janela, text="Nenhum arquivo selecionado")
+    label.pack(pady=10)
+
+    # Criar um botão na janela
+    botao = Button(text="Selecionar Arquivo", command= abrir_arquivo(label))
+    botao.pack(pady=20)
+
+    # Iniciar o loop principal da aplicação
+    janela.mainloop()
 
 def definir_estilo_tabela(tabela):
     estilo_cabecalho = {
@@ -77,4 +102,6 @@ def enviar_emails(remetente, destinatarios, corpo):
 
 
 if __name__ == "__main__":
-    ler_planilha()
+    #ler_planilha()
+    executar_programa()
+
