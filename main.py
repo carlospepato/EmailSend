@@ -110,7 +110,7 @@ def ler_planilha():
             enviar_emails(remetente, [destinatario], tabela_html)
             print(f'E-mail enviado com sucesso para {destinatario}')
         except Exception as e:
-            print(f"Falha ao enviar e-mail para {destinatario}. Erro: {str(e)}")
+            print(f"Email '{destinatario}' da empresa '{nome_empresa}' não foi encontrado e/ou não existe!")
 
 
 # Função para enviar e-mails
