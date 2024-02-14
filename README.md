@@ -29,13 +29,13 @@ pip install -r requirements.txt
 - Edite o script enviar_emails.py para ajustar as configurações conforme necessário.
 - Execute o script:
 ```bash
-python enviar_emails.py
+python main.py
 ```
 Isso enviará e-mails para os destinatários listados na planilha.
 
 # 📂 Estrutura do Projeto:
-- enviar_emails.py: Script principal para enviar e-mails.
-- planilha/exemplo_planilha.xlsx: Exemplo de uma planilha Excel com dados fictícios.
+- main.py: Script principal para enviar e-mails.
+- planilha/planilha_teste.xlsx: Exemplo de uma planilha Excel com dados fictícios.
 
 # 📝 Contato
 **Nome:** Carlos Eduardo Pepato.  
