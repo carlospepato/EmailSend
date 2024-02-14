@@ -2,12 +2,13 @@ import pandas as pd
 import win32com.client
 from bs4 import BeautifulSoup
 import os
-from openpyxl import load_workbook
-#from tkinter import *
-#from tkinter import messagebox
-#from tkinter import filedialog
+# from openpyxl import load_workbook
+# from tkinter import *
+# from tkinter import messagebox
+# from tkinter import filedialog
 
-class cor:
+
+class Cor:
     RESET = '\033[0m'
     PRETO = '\033[30m'
     VERMELHO = '\033[31m'
@@ -26,9 +27,12 @@ class cor:
     BRILHANTE_CIANO = '\033[96m'
     BRILHANTE_BRANCO = '\033[97m'
 
+
 """def abrir_arquivo(label):
     # Abre a caixa de diálogo para seleção de arquivo
-    arquivo = filedialog.askopenfilename(title="Selecione um arquivo", filetypes=[("Arquivos de Texto", "*.txt"), ("Todos os arquivos", "*.*")])
+    arquivo = filedialog.askopenfilename(
+                                        title="Selecione um arquivo",
+                                        filetypes=[("Arquivos de Texto", "*.txt"), ("Todos os arquivos", "*.*")])
 
     # Atualiza o rótulo com o caminho do arquivo selecionado
     label.config(text=f"Arquivo selecionado: {arquivo}")
@@ -55,19 +59,29 @@ def definir_estilo_tabela(tabela):
         'selector': 'thead th',  # Seleciona todas as células do cabeçalho
         'props': [('background-color', 'black'), ('color', 'white')]  # Define o fundo preto e texto branco
     }
+    estilo_conteudo = {
+        'selector': 'tbody td',  # Seleciona todas as células do corpo da tabela
+        'props': [('text-align', 'center')]  # Centraliza o texto
+    }
+    estilo_bordas = {
+        'selector': 'table',  # Seleciona a tabela inteira
+        'props': [('border', '2px solid blue')]
+    }
     tabela_html = (
         tabela.style
-        .set_table_styles([estilo_cabecalho])
-        .to_html(index=False, classes="table table-striped"))
+        .set_table_styles([estilo_cabecalho, estilo_conteudo, estilo_bordas])
+        .to_html(index=False, classes="table table-bordered"))
 
     return tabela_html
 
+
 def formatar_valor(x):
     valor_invertido = x * (-1)  # Inverte o sinal do valor da célula
-    valor_formatado = '{:,.2f}'.format(valor_invertido)  # Formata o valor com separadores de milhar e duas casas decimais
+    valor_formatado = '{:,.2f}'.format(valor_invertido)
     return valor_formatado
 
-def ler_planilha():
+
+def ler_planilha(excecao_especificada=None):
     remetente = str(input('email:'))
     caminho_excel = str(input('caminho do arquivo:').strip('"'))
     caminho_excel_normalizado = os.path.normpath(caminho_excel)
@@ -103,13 +117,16 @@ def ler_planilha():
                         '''.format(data, nome_empresa, moeda, valor_formatado)
         tabela_html += definir_estilo_tabela(df_grupo)
         tabela_html += '''
+                        <p>
+                        If you have any questions or in case that someone else also needs to receive this kind of email, 
+                        please let me know.</p>
                         <p>Best Regards</p>
                         '''
 
         try:
             enviar_emails(remetente, [destinatario], tabela_html)
             print(f'E-mail enviado com sucesso para {destinatario}')
-        except Exception as e:
+        except excecao_especificada:
             print(f"Email '{destinatario}' da empresa '{nome_empresa}' não foi encontrado e/ou não existe!")
 
 
@@ -130,9 +147,10 @@ def enviar_emails(remetente, destinatarios, corpo):
 
     return True
 
+
 def bem_vindo():
-    print(cor.AZUL + "Hi-mix Eletrônicos S/A" + cor.RESET)
-    print(cor.AZUL + "Sistema para Mala Direta" + cor.RESET)
+    print(Cor.BRILHANTE_AZUL + "Sistema para Mala Direta" + Cor.RESET)
+
 
 def mostrar_ao_usuario(tabela):
     soup = BeautifulSoup(tabela, 'html.parser')
@@ -140,18 +158,15 @@ def mostrar_ao_usuario(tabela):
     print(texto_amigavel)
     resposta = str(input("Enviar email (S/N): "))
     while True:
-        if(resposta == 'S'):
+        if resposta == 'S':
             return True
-        if(resposta == 'N'):
+        if resposta == 'N':
             return False
         print('Valor não corresponde')
         resposta = str(input("Enviar email (S/N): "))
-
 
 
 if __name__ == "__main__":
     bem_vindo()
     ler_planilha()
     input("\nAperte Enter para sair!")
-    #executar_programa()
-
