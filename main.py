@@ -2,11 +2,6 @@ import pandas as pd
 import win32com.client
 from bs4 import BeautifulSoup
 import os
-# from openpyxl import load_workbook
-# from tkinter import *
-# from tkinter import messagebox
-# from tkinter import filedialog
-
 
 class Cor:
     RESET = '\033[0m'
@@ -26,33 +21,6 @@ class Cor:
     BRILHANTE_MAGENTA = '\033[95m'
     BRILHANTE_CIANO = '\033[96m'
     BRILHANTE_BRANCO = '\033[97m'
-
-
-"""def abrir_arquivo(label):
-    # Abre a caixa de diálogo para seleção de arquivo
-    arquivo = filedialog.askopenfilename(
-                                        title="Selecione um arquivo",
-                                        filetypes=[("Arquivos de Texto", "*.txt"), ("Todos os arquivos", "*.*")])
-
-    # Atualiza o rótulo com o caminho do arquivo selecionado
-    label.config(text=f"Arquivo selecionado: {arquivo}")
-
-def executar_programa():
-    janela = Tk()
-    janela.title("Seleção de Arquivo")
-
-    # Criar um rótulo na janela
-    label = Label(janela, text="Nenhum arquivo selecionado")
-    label.pack(pady=10)
-
-    # Criar um botão na janela
-    botao = Button(text="Selecionar Arquivo", command= abrir_arquivo(label))
-    botao.pack(pady=20)
-
-    # Iniciar o loop principal da aplicação
-    janela.mainloop()
-    """
-
 
 def definir_estilo_tabela(tabela):
     estilo_cabecalho = {
@@ -129,15 +97,13 @@ def ler_planilha(excecao_especificada=None):
         except excecao_especificada:
             print(f"Email '{destinatario}' da empresa '{nome_empresa}' não foi encontrado e/ou não existe!")
 
-
-# Função para enviar e-mails
 def enviar_emails(remetente, destinatarios, corpo):
     outlook = win32com.client.Dispatch("Outlook.Application")
 
     for destinatario in destinatarios:
-        email = outlook.CreateItem(0)  # Criação do objeto de e-mail
+        email = outlook.CreateItem(0) 
         email.To = destinatario
-        email.Subject = "Wire Transfer Details - Hi-Mix Eletrônicos"
+        email.Subject = "Wire Transfer Details"
         email.HTMLBody = corpo
 
         # Definindo o remetente
